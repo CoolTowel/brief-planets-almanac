@@ -10,7 +10,7 @@ east8 = Observer(40, 120, 40)
 time_zone = 8
 obs = east8
 
-year = datetime.date.today().year
+year = datetime.date.today().year+1
 if calendar.isleap(year):
     days_in_year = 366
 else:

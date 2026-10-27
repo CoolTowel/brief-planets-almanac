@@ -16,7 +16,7 @@ obs = north40
 time_zone = time_zone = (obs.longitude)/15
 
 
-year = datetime.date.today().year
+year = datetime.date.today().year+1
 if calendar.isleap(year):
     days_in_year = 366
 else:
@@ -40,7 +40,7 @@ mins_in_years = np.array([
     for m in np.arange(0, days_in_year * 24 * 60)
 ])
 
-backgroung_time = mins_in_years.reshape((365, 24 * 60))
+backgroung_time = mins_in_years.reshape((days_in_year, 24 * 60))
 
 sun_alts = true_alt(Body.Sun, backgroung_time, obs=obs)
 

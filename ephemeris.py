@@ -12,7 +12,7 @@ north52 = Observer(52, 4, 20) # Leiden
 obs = north40
 time_zone = time_zone = (obs.longitude)/15
 
-year = datetime.date.today().year
+year = datetime.date.today().year+1
 
 time_origin = Time.Make(year, 1, 1, 12 - time_zone, 00, 00.0)
 

@@ -53,9 +53,6 @@ def rise_and_set(body,
         return (rise_time_list, set_time_list, rise, set)
 
 
-
-
-
 if __name__ == '__main__':
     moon_rise, moon_set = rise_and_set(Body.Moon)
     sun_r, sun_s = rise_and_set(Body.Sun)

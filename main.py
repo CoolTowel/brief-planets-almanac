@@ -31,7 +31,7 @@ obs = north40
 time_zone = (obs.longitude) / 15
 
 # year number in Common Era (CE)
-year = datetime.date.today().year
+year = datetime.date.today().year+1
 
 # days count in this year
 if calendar.isleap(year):
@@ -44,6 +44,8 @@ time_origin = Time.Make(year, 1, 1, 12 - time_zone, 00, 00.0)
 
 # y scale for all
 y_scale_factor = 1 / 14
+
+month_background_width =0.8
 
 # font size
 fontsize = 10
@@ -104,9 +106,9 @@ def draw_patch(ax, vertex, color=[1] * 3, zorder=1):
 
 def month_background(ax, sun_rise_or_set_day_hour, left=True):
     if left:
-        shift = -1
+        shift = -month_background_width
     else:
-        shift = 1
+        shift = month_background_width
     blue_vertex_1 = np.copy(sun_rise_or_set_day_hour[:, ::-1])
     # day is y coordinate, hour is x coord so here we need to filp it.
     blue_vertex_2 = np.copy(sun_rise_or_set_day_hour[::-1, ::-1])
@@ -177,8 +179,11 @@ def plot_set(ax, bodies: list, zorder, lw, colors, object_lable=False):
         set = np.ma.array(set, mask=np.logical_not(mask)).filled(np.nan)
         ax.plot(set[:, 1], set[:, 0], zorder=zorder, lw=lw, c=c)
         if object_lable is True:
-            plot_object_label(ax, body, 'S', x=set[mask][1], y=set[mask][0])
-            plot_object_label(ax, body, 'S', x=set[mask][-1], y=set[mask][-2])
+            try:
+                plot_object_label(ax, body, 'S', x=set[mask][1], y=set[mask][0])
+                plot_object_label(ax, body, 'S', x=set[mask][-1], y=set[mask][-2])
+            except:
+                print(body+' setting does not appear in night ')
 
 
 def plot_rise(ax, bodies: list, zorder, lw, colors, object_lable=False):
@@ -188,12 +193,16 @@ def plot_rise(ax, bodies: list, zorder, lw, colors, object_lable=False):
         rise = np.ma.array(rise, mask=np.logical_not(mask)).filled(np.nan)
         ax.plot(rise[:, 1], rise[:, 0], zorder=zorder, lw=lw, c=c)
         if object_lable is True:
-            plot_object_label(ax, body, 'R', x=rise[mask][1], y=rise[mask][0])
-            plot_object_label(ax,
-                              body,
-                              'R',
-                              x=rise[mask][-1],
-                              y=rise[mask][-2])
+            try:
+                plot_object_label(ax, body, 'R', x=rise[mask][1], y=rise[mask][0])
+                plot_object_label(ax,
+                                body,
+                                'R',
+                                x=rise[mask][-1],
+                                y=rise[mask][-2])
+            except:
+                print(body+' rising does not appear in night ')
+
 
 
 def plot_transit(ax, bodies: list, zorder, lw, colors, object_lable=False):
@@ -209,17 +218,19 @@ def plot_transit(ax, bodies: list, zorder, lw, colors, object_lable=False):
                 c=c)
 
         if object_lable is True:
-            plot_object_label(ax,
-                              body,
-                              'T',
-                              x=transit_list[mask][1],
-                              y=transit_list[mask][0])
-            plot_object_label(ax,
-                              body,
-                              'T',
-                              x=transit_list[mask][-1],
-                              y=transit_list[mask][-2])
-
+            try:
+                plot_object_label(ax,
+                                body,
+                                'T',
+                                x=transit_list[mask][1],
+                                y=transit_list[mask][0])
+                plot_object_label(ax,
+                                body,
+                                'T',
+                                x=transit_list[mask][-1],
+                                y=transit_list[mask][-2])
+            except:
+                print(body+' transiting does not appear in night ')
 
 # sun
 sun_rise, sun_set = rise_set('Sun')
@@ -293,23 +304,23 @@ def main_plot(filename,
                 lw=1,
                 zorder=black_line_zorder)
 
-        ax.plot(sun_rise_hours + 1,
+        ax.plot(sun_rise_hours + month_background_width,
                 sun_rise_days,
                 c='k',
                 lw=0.5,
                 zorder=black_line_zorder)
-        ax.plot(sun_set_hours - 1,
+        ax.plot(sun_set_hours - month_background_width,
                 sun_set_days,
                 c='k',
                 lw=0.5,
                 zorder=black_line_zorder)
 
         # top and butomm line
-        ax.plot([sun_set_hours[1] - 1, sun_rise_hours[1] + 0.985], [1, 1],
+        ax.plot([sun_set_hours[1] - month_background_width, sun_rise_hours[1] + month_background_width-0.015], [1, 1],
                 c='k',
                 lw=1,
                 zorder=black_line_zorder)
-        ax.plot([sun_set_hours[-1] - 0.985, sun_rise_hours[-1] + 0.985],
+        ax.plot([sun_set_hours[-1] - month_background_width + 0.015, sun_rise_hours[-1] + + month_background_width-0.015],
                 [days_in_year, days_in_year],
                 c='k',
                 lw=1,
@@ -322,14 +333,14 @@ def main_plot(filename,
             set_hour = sun_set[set_day - 1, 1]
             offset = 0.01
             monthline_color = 'Black'
-            ax.plot([set_hour - 1 + offset, set_hour - offset],
+            ax.plot([set_hour - month_background_width + offset, set_hour - offset],
                     [set_day, set_day],
                     lw=0.5,
                     c=monthline_color,
                     zorder=black_line_zorder - 1)
             rise_day = set_day - 1
             rise_hour = sun_rise[rise_day - 1, 1]
-            ax.plot([rise_hour + offset, rise_hour + 1 - offset],
+            ax.plot([rise_hour + offset, rise_hour + month_background_width - offset],
                     [rise_day, rise_day],
                     lw=0.5,
                     c=monthline_color,
@@ -576,7 +587,7 @@ def main_plot(filename,
         fig.set_facecolor('grey')
 
     # plt.show()
-    fig.savefig('./output/'+ str(obs.latitude)+'/' + str(obs.latitude) + '_' + filename + '.pdf')
+    fig.savefig('./output/'+ str(year) + '/' + str(obs.latitude)+'/' + str(obs.latitude) + '_' + filename + '.pdf')
 
 
 if __name__ == '__main__':

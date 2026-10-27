@@ -2,10 +2,9 @@
 /.ipynb_checkpoints
 /.vscode
 /__pycache__
-/test.ipynb
-/test.py
-/test_24_副本.pdf
-/test_40.pdf
-/test_52.pdf
+/tests
 /textcurve.py
 /output
+
+/.codex
+

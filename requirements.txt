@@ -1,0 +1,19 @@
+# Python 3.12 in Conda environment almanac; retain validated dependency versions.
+# Astronomy Engine is vendored with its original license and SHA-256.
+numpy==2.4.4
+astropy==7.2.0
+matplotlib==3.11.2
+scipy==1.17.1
+opencv-python==4.13.0.92
+pillow==13.0.0
+contourpy==1.4.0
+cycler==0.12.1
+fonttools==4.67.0
+kiwisolver==1.5.1
+packaging==26.0
+pyparsing==3.3.3
+python-dateutil==2.9.0.post0
+six==1.17.0
+pyerfa==2.0.1.5
+astropy-iers-data==0.2026.5.4.1.4.54
+PyYAML==6.0.3

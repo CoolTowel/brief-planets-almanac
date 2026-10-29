@@ -1,10 +1,42 @@
-/.DS_Store
-/.ipynb_checkpoints
-/.vscode
-/__pycache__
-/tests
+# Operating system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+.uuid
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+/.venv/
+/venv/
+/.conda/
+
+# Local editor and agent settings
+/.vscode/
+/.idea/
+/.codex/
+.ipynb_checkpoints/
+
+# Generated datasets and rendered output (retain historical data assets)
+/data/runs/
+/output/
+/output2027/
+
+# Test and coverage caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+/htmlcov/
+
+# Local credentials (allow a shareable example)
+.env
+.env.*
+!.env.example
+
+# Local experiments; keep the formal unittest suite
 /textcurve.py
-/output
-
-/.codex
-
+/tests/*
+!/tests/test_*.py
+!/tests/__init__.py
